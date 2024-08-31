@@ -10,80 +10,83 @@ use Validator;
 
 class BookController extends Controller
 {
-    public function index(){
+    public function index()
+    {
         $book = Book::all();
         $data = [
-            'status'=>200,
-            'book'=>$book
+            'status' => 200,
+            'book' => $book
         ];
-        return response()->json($data,200);
+        return response()->json($data, 200);
     }
 
     public function store(Request $request)
     {
-        $validator = Validator::make($request->all(),
+        $validator = Validator::make(
+            $request->all(),
             [
-            'title' => 'required|string|max:255',
-            'author' => 'required|string|max:255',
-            'description' => 'nullable|string',
-            'year_published' => 'nullable|integer',
-        ]);
+                'title' => 'required|string|max:255',
+                'author' => 'required|string|max:255',
+                'description' => 'nullable|string',
+                'year_published' => 'nullable|integer',
+            ]
+        );
 
-        if($validator->fails()){
+        if ($validator->fails()) {
             $data = [
-                "status"=>422,
-                "message"=> $validator->messages()
+                "status" => 422,
+                "message" => $validator->messages()
             ];
-            return response()->json($data,422);
-        }
-        else{
+            return response()->json($data, 422);
+        } else {
             $book = new Book;
-            $book->title=$request->title;
-            $book->author=$request->author;
-            $book->description=$request->description;
-            $book->year_published=$request->year_published;
+            $book->title = $request->title;
+            $book->author = $request->author;
+            $book->description = $request->description;
+            $book->year_published = $request->year_published;
 
             $book->save();
 
-            $data=[
-                'status'=>200,
-                'message'=> 'Data Stored success'
+            $data = [
+                'status' => 200,
+                'message' => 'Data Stored success'
             ];
-            return response()->json($data,200);
+            return response()->json($data, 200);
         }
     }
 
     public function update(Request $request, $id)
     {
-        $validator = Validator::make($request->all(),
+        $validator = Validator::make(
+            $request->all(),
             [
-            'title' => 'required|string|max:255',
-            'author' => 'required|string|max:255',
-            'description' => 'nullable|string',
-            'year_published' => 'nullable|integer',
-        ]);
+                'title' => 'required|string|max:255',
+                'author' => 'required|string|max:255',
+                'description' => 'nullable|string',
+                'year_published' => 'nullable|integer',
+            ]
+        );
 
-        if($validator->fails()){
+        if ($validator->fails()) {
             $data = [
-                "status"=>422,
-                "message"=> $validator->messages()
+                "status" => 422,
+                "message" => $validator->messages()
             ];
-            return response()->json($data,422);
-        }
-        else{
+            return response()->json($data, 422);
+        } else {
             $book = Book::find($id);
-            $book->title=$request->title;
-            $book->author=$request->author;
-            $book->description=$request->description;
-            $book->year_published=$request->year_published;
+            $book->title = $request->title;
+            $book->author = $request->author;
+            $book->description = $request->description;
+            $book->year_published = $request->year_published;
 
             $book->save();
 
-            $data=[
-                'status'=>200,
-                'message'=> 'Data Updated success'
+            $data = [
+                'status' => 200,
+                'message' => 'Data Updated success'
             ];
-            return response()->json($data,200);
+            return response()->json($data, 200);
         }
     }
 
@@ -97,11 +100,11 @@ class BookController extends Controller
 
         $book->delete();
 
-        $data=[
-            'status'=>200,
-            'message'=> 'Data Deleted success'
+        $data = [
+            'status' => 200,
+            'message' => 'Data Deleted success'
         ];
 
-        return response()->json($data,200);
+        return response()->json($data, 200);
     }
 }
